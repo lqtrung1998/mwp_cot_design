@@ -1,14 +1,14 @@
 # SFT
-Modify parameters in ```run_train_sft_model.sh``` and run
+Modify parameters in ```scripts/run_train_sft_model.sh``` and run
 ```
-bash run_train_sft_model.sh
+bash scripts/run_train_sft_model.sh
 ```
 The script will finetune a model (initialized from ```${model_name_or_path}```) on ```${train_file}``` dataset, save the checkpoint to ```${model_dir}``` directory and evaluate the solving accuracy on ```${test_file}``` dataset.
 
 # Sampling
-Modify parameters in ```run_sampling.sh``` and run
+Modify parameters in ```scripts/run_sampling.sh``` and run
 ```
-bash run_sampling.sh
+bash scripts/run_sampling.sh
 ```
 This script will sample K=```${num_return_sequence}``` solutions from model init from ```${model_name}``` for each input/prefix from data in ```${input_path}```. The sampling result is stored in ```${save_dir}```.
 
@@ -20,8 +20,8 @@ Sample reward model training and evaluation data (following the above section)
 * Test set: sample completion on the training set using best SFT checkpoint
 
 
-Then modify parameters in ```run_train_reward_model.sh``` and train reward model by running
+Then modify parameters in ```scripts/run_train_reward_model.sh``` and train reward model by running
 ```
-bash run_train_reward_model.sh
+bash scripts/run_train_reward_model.sh
 ```
 This script train the reward model (initialized from ```${model_name_or_path}```) on ```${train_file}``` dataset, save the checkpoint to ```${model_dir}``` directory and evaluate the re-ranking accuracy on the ```${test_file}``` dataset.
