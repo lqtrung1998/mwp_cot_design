@@ -7,8 +7,6 @@ from functools import partial
 import json
 import numpy as np
 import os
-from src.python_engine import run_python_code
-from src.wolfram_engine import run_wolfram_code
 from src.utils import set_seed
 from tqdm import tqdm
 import torch
@@ -20,30 +18,6 @@ tqdm = partial(tqdm, ncols=0, leave=False)
 instruction = 'Question:\n'
 cot_trigger = '\nAnswer reasoning:\n'
 answer_trigger = '\nTherefore, the answer is: '
-
-post_process_final_answer_fn_mapper = {
-    'gsm8k': lambda x: float(x.replace(',','').strip()),
-    'svamp': lambda x: float(x.replace(',','').strip()),
-    'mathqa': lambda x: x.lower().replace('"','').replace("'",'').strip(),
-}
-post_process_answer_cot_fn_mapper = {
-    ('python', 'gsm8k'): lambda answer_cot: float(run_python_code(code_gen=answer_cot.strip())),
-    ('python', 'svamp'): lambda answer_cot: float(run_python_code(code_gen=answer_cot.strip())),
-    ('python', 'mathqa'): lambda answer_cot: str(run_python_code(code_gen=answer_cot.strip())).lower().replace('"','').replace("'",'').strip(),
-
-    ('wolfram', 'gsm8k'): lambda answer_cot: float(eval(run_wolfram_code(code_gen=answer_cot.strip()).replace('*^','* 10 ** ').strip())),
-    ('wolfram', 'svamp'): lambda answer_cot: float(eval(run_wolfram_code(code_gen=answer_cot.strip()).replace('*^','* 10 ** ').strip())),
-    ('wolfram', 'mathqa'): lambda answer_cot: run_wolfram_code(code_gen=answer_cot.strip()).lower().replace('"','').replace("'",'').strip(),
-
-    ('nl', 'gsm8k'): lambda answer_cot: float(answer_cot.split(answer_trigger)[-1].strip()),
-    ('nl', 'svamp'): lambda answer_cot: float(answer_cot.split(answer_trigger)[-1].strip()),
-    ('nl', 'mathqa'): lambda answer_cot: answer_cot.split(answer_trigger)[-1].lower().replace('"','').replace("'",'').strip(),
-}
-compare_answer_fn_mapper = {
-    'gsm8k': lambda extracted_ans, target_answer: abs(extracted_ans - target_answer) <= 1e-3,
-    'svamp': lambda extracted_ans, target_answer: abs(extracted_ans - target_answer) <= 1e-3,
-    'mathqa': lambda extracted_ans, target_answer: extracted_ans == target_answer,
-}
 
 def prepare_datasets_and_data_loaders(args, tokenizer):
     with accelerator.main_process_first():
