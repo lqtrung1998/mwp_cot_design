@@ -6,5 +6,5 @@ pip3 install sigfig==1.3.3
 pip3 install wolframclient
 sudo apt-get update && sudo apt-get install ffmpeg libsm6 libxext6  -y
 
-# hdfs dfs -get hdfs://haruna/home/byte_ailab_litg/user/xiaoran.jin/ssat_train/wolfram/* ./
-sudo bash WolframEngine_13.2.0_LINUX.sh  < /dev/null
+# download wolfram-engine from https://www.wolfram.com/engine/ .. then install
+# sudo bash WolframEngine_13.2.0_LINUX.sh  < /dev/null
