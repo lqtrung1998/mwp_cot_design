@@ -85,14 +85,11 @@ def main(args):
     do_sample = args['do_sample']
 
     tokenizer = AutoTokenizer.from_pretrained(model_name, use_fast=True)
-    if tokenizer.eos_token_id is None:
-        tokenizer.eos_token_id = 2
-    if tokenizer.pad_token_id is None:
-        tokenizer.pad_token_id = tokenizer.eos_token_id
-    if tokenizer.unk_token_id is None:
-        tokenizer.unk_token_id = 3
-    if tokenizer.mask_token_id is None:
-        tokenizer.mask_token_id = 3
+    # For Galactica model
+    tokenizer.pad_token_id = 1
+    tokenizer.eos_token_id = 2
+    tokenizer.unk_token_id = 3
+    tokenizer.mask_token_id = 3
 
     # loading training data
     raw_dataset = Dataset.from_list(json.load(open(input_path,'r')))
