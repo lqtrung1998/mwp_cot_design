@@ -253,14 +253,11 @@ def collate_fn(batch, args, tokenizer):
 def main(args):
     set_seed(args['seed'] + accelerator.process_index)
     tokenizer = AutoTokenizer.from_pretrained(args['tokenizer_name_or_path'], use_fast=True)
-    if tokenizer.eos_token_id is None:
-        tokenizer.eos_token_id = 2
-    if tokenizer.pad_token_id is None:
-        tokenizer.pad_token_id = tokenizer.eos_token_id
-    if tokenizer.unk_token_id is None:
-        tokenizer.unk_token_id = 3
-    if tokenizer.mask_token_id is None:
-        tokenizer.mask_token_id = 3
+    # For Galactica model
+    tokenizer.pad_token_id = 1
+    tokenizer.eos_token_id = 2
+    tokenizer.unk_token_id = 3
+    tokenizer.mask_token_id = 3
 
     (train_dataset, train_dataloader), (test_dataset, test_dataloader) = prepare_datasets_and_data_loaders(args, tokenizer)
     model = AutoModelForSequenceClassification.from_pretrained(args['model_name_or_path'], num_labels=2, low_cpu_mem_usage=True, torch_dtype=torch.bfloat16)
