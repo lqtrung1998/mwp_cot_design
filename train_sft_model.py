@@ -320,7 +320,6 @@ def main(args):
     tokenizer.pad_token_id = 1
     tokenizer.eos_token_id = 2
     tokenizer.unk_token_id = 3
-    tokenizer.mask_token_id = 3
 
     (train_dataset, train_dataloader), (test_dataset, test_dataloader) = prepare_datasets_and_data_loaders(args, tokenizer)
     model = AutoModelForCausalLM.from_pretrained(args['model_name_or_path'], low_cpu_mem_usage=True, torch_dtype=torch.bfloat16)

@@ -89,7 +89,6 @@ def main(args):
     tokenizer.pad_token_id = 1
     tokenizer.eos_token_id = 2
     tokenizer.unk_token_id = 3
-    tokenizer.mask_token_id = 3
 
     # loading training data
     raw_dataset = Dataset.from_list(json.load(open(input_path,'r')))
